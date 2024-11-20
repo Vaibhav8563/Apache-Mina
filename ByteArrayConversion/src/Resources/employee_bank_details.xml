@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<EmployeeDetails>
-    <Employee>
-        <Name>John Doe</Name>
-        <AccountNumber>1234567890</AccountNumber>
-        <BankName>ABC Bank</BankName>
-        <IFSCCode>ABCD0123456</IFSCCode>
-    </Employee>
-</EmployeeDetails>
