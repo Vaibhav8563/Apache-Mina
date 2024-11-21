@@ -49,6 +49,7 @@ public class Client {
         }
         
         
+        
         @Override
         public void sessionClosed(IoSession session) {
             System.out.println("Session closed, exiting client...");
