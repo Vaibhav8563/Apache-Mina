@@ -1,6 +1,7 @@
 package publisherServer;
 
 import org.apache.mina.core.service.IoAcceptor;
+import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
@@ -18,6 +19,9 @@ public class Publisher {
         
         // Set up codec (for text messages)
         acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new TextLineCodecFactory()));
+        
+      // Configure the idle timeout (5 seconds for both read and write idle)
+        acceptor.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE, 5 ); //optional and close session after 5sec if no activity
         
         // Set the handler for managing incoming connections
         acceptor.setHandler(new PublisherHandler());
@@ -46,10 +50,17 @@ public class Publisher {
             System.out.println("Session opened: " + session.getRemoteAddress());
         }
 
-        @Override
-        public void sessionClosed(IoSession session) {
-            System.out.println("Session closed: " + session.getRemoteAddress());
-        }
+		@Override
+		public void sessionClosed(IoSession session) {
+			System.out.println("Session closed: " + session.getRemoteAddress());
+		}
+
+		
+		@Override
+		public void sessionIdle(IoSession session, IdleStatus status) {
+			System.out.println("Session idle, closing: " + session.getRemoteAddress());
+			session.closeNow(); // Close idle session
+		}
     }
 }
 

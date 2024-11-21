@@ -47,6 +47,15 @@ public class Client {
         public void exceptionCaught(IoSession session, Throwable cause) {
             cause.printStackTrace();
         }
+        
+        
+        
+        @Override
+        public void sessionClosed(IoSession session) {
+            System.out.println("Session closed, exiting client...");
+        }
+        
+        
     }
 }
 
